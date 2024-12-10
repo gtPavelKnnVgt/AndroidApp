@@ -7,3 +7,9 @@
 ## Details page
 
 ![Details page](./preview/details.png)
+
+## Notification
+
+### Playing
+
+### Paused

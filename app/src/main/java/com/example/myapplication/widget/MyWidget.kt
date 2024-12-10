@@ -3,13 +3,22 @@ package com.example.myapplication.widget
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -32,11 +41,17 @@ import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.width
+import androidx.glance.layout.wrapContentHeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
+import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
@@ -50,6 +65,7 @@ import com.example.domain.entity.ListElementEntity
 import com.example.domain.usecase.ElementByIdUseCase
 import com.example.domain.usecase.ListUseCase
 import com.example.myapplication.MainActivity
+import com.example.myapplication.R
 import org.koin.core.context.GlobalContext.get
 
 class MyWidget : GlanceAppWidget() {
@@ -65,11 +81,13 @@ class MyWidget : GlanceAppWidget() {
             val description = state[descriptionKey]
             val imageUrl = state[imageUrlKey]
             var image by remember(imageUrl) { mutableStateOf<Bitmap?>(null) }
+
             LaunchedEffect(imageUrl) {
                 if (imageUrl != null) {
                     image = context.getImage(imageUrl)
                 }
             }
+
             LaunchedEffect(elementIdState) {
                 updateAppWidgetState(context, id) { prefs ->
                     val elId = elementIdState
@@ -79,6 +97,7 @@ class MyWidget : GlanceAppWidget() {
                 }
                 update(context, id)
             }
+
             LaunchedEffect(state) {
                 if (title == null && elementId != null) {
                     val useCase: ElementByIdUseCase = get().get()
@@ -93,9 +112,11 @@ class MyWidget : GlanceAppWidget() {
                         }
                 }
             }
+
             LaunchedEffect(elements) {
                 elements = listUseCase.execute(Unit)
             }
+
             if(elementId == null) {
                 LazyColumn(
                     modifier = GlanceModifier.fillMaxSize()
@@ -129,19 +150,22 @@ class MyWidget : GlanceAppWidget() {
                         .background(ColorProvider(color = Color(0xffffffff)))
                         .clickable(actionStartActivity<MainActivity>()),
                     verticalAlignment = Alignment.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
+                    Column(
+                        modifier = GlanceModifier.padding(4.dp, 4.dp)
+                    ) {
+                        Text(title,modifier = GlanceModifier.fillMaxWidth(), style = TextStyle(fontSize = 12.sp, textAlign = TextAlign.Center))
+                        Text(description.orEmpty(),modifier = GlanceModifier.fillMaxWidth() , style = TextStyle(fontSize = 10.sp, textAlign = TextAlign.Center) )
+                    }
+
                     if (image != null) {
                         Image(
-                            modifier = GlanceModifier.fillMaxWidth(),
+                            modifier = GlanceModifier.fillMaxWidth().wrapContentHeight(),
                             provider = ImageProvider(image!!),
                             contentDescription = ""
                         )
                     }
-                    Text(
-                        title
-                    )
-                    Text(description.orEmpty())
                 }
             }
         }
