@@ -1,6 +1,5 @@
 package com.example.myapplication.details
 
-import android.widget.Space
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -78,8 +75,13 @@ fun DetailsScreen(navController: NavController, vm: DetailsViewModel = koinViewM
                             mutableStateOf(content.element.like)
                         }
                         Like(modifier = Modifier, like = like)
+                        val isFirstLike = remember { mutableStateOf(true) }
                         LaunchedEffect(like.value) {
-                            vm.like(content.element, like.value)
+                            if (isFirstLike.value) {
+                                isFirstLike.value = false
+                            } else {
+                                vm.like(content.element, like.value)
+                            }
                         }
                     }
                 }

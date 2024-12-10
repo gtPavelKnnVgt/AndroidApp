@@ -1,8 +1,12 @@
 package com.example.myapplication.main
 
-import android.annotation.SuppressLint
-import android.icu.text.CaseMap.Title
-import androidx.compose.foundation.border
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -39,10 +43,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.domain.data.entity.ListButton
@@ -52,6 +58,8 @@ import com.example.myapplication.details.DetailsScreenRoute
 import com.example.myapplication.details.vm.DetailsState
 import com.example.myapplication.main.vm.MainState
 import com.example.myapplication.main.vm.MainViewModel
+import com.example.myapplication.media.MyMediaService
+import com.example.myapplication.services.MyService
 import com.example.myapplication.ui.view.Like
 import okhttp3.internal.http2.Header
 import org.koin.androidx.compose.koinViewModel
@@ -94,9 +102,9 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = koinView
                     ErrorState(st.message)
                 }
 
-                MainState.Loading -> {
-                    Text(text = "Loading...")
-                }
+            MainState.Loading -> {
+                Text(text = "Загрузка...")
+            }
             }
         }
     }
@@ -115,12 +123,40 @@ fun ContentState(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         list.forEach { element ->
+            val ctx = LocalContext.current
+            val permissionLauncher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.RequestPermission()
+            ) { isGranted ->
+                if(isGranted) {
+                    sendNotification(ctx)
+                }
+            }
             Row(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate(DetailsScreenRoute(element.id))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            val permission = ContextCompat.checkSelfPermission(
+                                ctx,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            )
+                            if (permission == PackageManager.PERMISSION_GRANTED) {
+                                sendNotification(ctx)
+                            } else {
+                                permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            }
+                        } else {
+                            sendNotification(ctx)
+                        }
+//                        navController.navigate(DetailsScreenRoute(element.id))
+//                        WorkManager
+//                            .getInstance(ctx)
+//                            .enqueueUniquePeriodicWork(
+//                                "some_name",
+//                                ExistingPeriodicWorkPolicy.KEEP,
+//                                PeriodicWorkRequestBuilder<MyWorker>(1, TimeUnit.HOURS).build()
+//                            )
                     }
             ) {
                 AsyncImage(
@@ -146,8 +182,13 @@ fun ContentState(
                         Spacer(modifier = Modifier.width(16.dp))
                         val like = remember { mutableStateOf(element.like) }
                         Like(modifier = Modifier.height(40.dp), like = like)
+                        val isFirstLike = remember { mutableStateOf(true) }
                         LaunchedEffect(like.value) {
-                            onLike.invoke(element, like.value)
+                            if (isFirstLike.value) {
+                                isFirstLike.value = false
+                            } else {
+                                onLike.invoke(element, like.value)
+                            }
                         }
                     }
                 }
@@ -161,9 +202,25 @@ fun ButtonLink(button: ListButton) {
     val uriHandler = LocalUriHandler.current
     Button(
         onClick = {
-        uriHandler.openUri(button.url)
-    },
+            uriHandler.openUri(button.url)
+        },
         modifier = Modifier.height(40.dp)) {
         Text(text = button.title)
     }
+}
+
+fun sendNotification(context: Context) {
+    ContextCompat.startForegroundService(
+        context,
+        Intent(context, MyMediaService::class.java).apply {
+            action = MyMediaService.STARTFOREGROUND_ACTION
+        }
+    )
+//    val notificationManager = context.getSystemService<NotificationManager>() ?: return
+//    val notification = NotificationHelper.createNotification(
+//        context = context,
+//        title = "title",
+//        text = "text"
+//    )
+//    notificationManager.notify(101, notification)
 }
