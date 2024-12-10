@@ -149,14 +149,6 @@ fun ContentState(
                         } else {
                             sendNotification(ctx)
                         }
-//                        navController.navigate(DetailsScreenRoute(element.id))
-//                        WorkManager
-//                            .getInstance(ctx)
-//                            .enqueueUniquePeriodicWork(
-//                                "some_name",
-//                                ExistingPeriodicWorkPolicy.KEEP,
-//                                PeriodicWorkRequestBuilder<MyWorker>(1, TimeUnit.HOURS).build()
-//                            )
                     }
             ) {
                 AsyncImage(
@@ -216,11 +208,4 @@ fun sendNotification(context: Context) {
             action = MyMediaService.STARTFOREGROUND_ACTION
         }
     )
-//    val notificationManager = context.getSystemService<NotificationManager>() ?: return
-//    val notification = NotificationHelper.createNotification(
-//        context = context,
-//        title = "title",
-//        text = "text"
-//    )
-//    notificationManager.notify(101, notification)
 }
