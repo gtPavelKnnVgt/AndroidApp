@@ -29,6 +29,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -97,7 +98,6 @@ fun MainScreen(navController: NavController, viewModel: MainViewModel = koinView
                         viewModel.like(element, like)
                     }
                 }
-
                 is MainState.Error -> {
                     ErrorState(st.message)
                 }
@@ -122,33 +122,44 @@ fun ContentState(
     onLike: (ListElementEntity, Boolean) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        list.forEach { element ->
-            val ctx = LocalContext.current
-            val permissionLauncher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.RequestPermission()
-            ) { isGranted ->
-                if(isGranted) {
+        val ctx = LocalContext.current
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if(isGranted) {
+                sendNotification(ctx)
+            }
+        }
+
+        OutlinedButton(
+            onClick = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    val permission = ContextCompat.checkSelfPermission(
+                        ctx,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
+                    if (permission == PackageManager.PERMISSION_GRANTED) {
+                        sendNotification(ctx)
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                } else {
                     sendNotification(ctx)
                 }
-            }
+            },
+            modifier = Modifier.height(40.dp).fillMaxSize())
+        {
+            Text(text = "Play music")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        list.forEach { element ->
             Row(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .fillMaxWidth()
                     .clickable {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            val permission = ContextCompat.checkSelfPermission(
-                                ctx,
-                                Manifest.permission.POST_NOTIFICATIONS
-                            )
-                            if (permission == PackageManager.PERMISSION_GRANTED) {
-                                sendNotification(ctx)
-                            } else {
-                                permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                            }
-                        } else {
-                            sendNotification(ctx)
-                        }
+                        navController.navigate(DetailsScreenRoute(element.id))
                     }
             ) {
                 AsyncImage(
