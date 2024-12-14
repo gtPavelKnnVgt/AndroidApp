@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.example.myapplication.R
+import com.example.myapplication.R.raw.milky_stolen_dance
 import com.example.myapplication.notification.NotificationHelper.DEFAULT_CHANNEL_ID
 
 class MyMediaService : Service() {
@@ -20,7 +21,7 @@ class MyMediaService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        mediaPlayer = MediaPlayer.create(this, R.raw.luca_cant_stop)
+        mediaPlayer = MediaPlayer.create(this, milky_stolen_dance)
         mediaPlayer.isLooping = true
     }
 

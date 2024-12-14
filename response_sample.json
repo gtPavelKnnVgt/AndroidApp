@@ -14,10 +14,10 @@
       },
       {
         "id": 1,
-        "title": "Sleepy Sloths",
-        "subtitle": "Curious creatures caught napping in the trees",
-        "content": "These sleepy sloths are known for their leisurely lifestyle and can be observed snoozing high up in the canopy.",
-        "image": "https://static.mk.ru/upload/entities/2021/08/09/14/articles/facebookPicture/82/7f/7d/7b/8aeb5a415ffef24a5e5ad91cbdcc780f.jpg",
+        "title": "NBA LOGO",
+        "subtitle": "Accepted Basketball LOGO",
+        "content": "Actual logo was accepted by association basketball commit",
+        "image": "https://images.seeklogo.com/logo-png/24/1/nba-logo-png_seeklogo-247736.png?v=638687141570000000",
         "button": {
           "title": "Learn More",
           "url": "https://ya.ru"
@@ -25,10 +25,10 @@
       },
       {
         "id": 2,
-        "title": "Clever Crows",
-        "subtitle": "Intelligent birds outsmarting humans with innovative tricks",
-        "content":  "These crafty crows have been observed using tools and solving complex puzzles to obtain food rewards.",
-        "image": "https://cdn.culture.ru/images/cbd5474c-67b5-5257-8fd3-42d8ea7aa69e",
+        "title": "NHL TEAM LOGO - CHICAGO",
+        "subtitle": "Accepted Hockey team LOGO",
+        "content":  "Chicago Blackhawks LOGO was accepted in 1999 till present.",
+        "image": "https://images.footballfanatics.com/chicago-blackhawks/wincraft-chicago-blackhawks-logo-auto-emblem_pi4297000_ff_4297695-ee65a611fc316ae550a7_full.jpg?_hv=2",
         "button": {
           "title": "Learn More",
           "url": "https://ya.ru"
@@ -36,10 +36,10 @@
       },
       {
         "id": 3,
-        "title": "Graceful Gazelles",
-        "subtitle": "Majestic antelopes mesmerize with their elegant movements",
-        "content":  "These beautiful gazelles are known for their speed and agility, gracefully leaping through the savannah.",
-        "image": "https://i.pinimg.com/originals/79/d9/bc/79d9bc50bde8a58c69a3ed84d7df7e93.jpg",
+        "title": "NHL TEAM LOGO - DETROIT",
+        "subtitle": "Accepted Hockey team LOGO",
+        "content":  "Detroit Red Wings Logo was accepted 1984 till present.",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Detroit_Red_Wings_logo.svg/1200px-Detroit_Red_Wings_logo.svg.png",
         "button": {
           "title": "Learn More",
           "url": "https://ya.ru"
@@ -47,21 +47,10 @@
       },
       {
         "id": 4,
-        "title": "Mischievous Monkeys",
-        "subtitle": "Curious primates causing chaos in the jungle",
-        "content":  "These cheeky monkeys have been known to steal food and play pranks on unsuspecting tourists visiting their habitat.",
-        "image": "https://images.wallpaperscraft.ru/image/single/korzina_kotiata_para_72304_2560x1600.jpg",
-        "button": {
-          "title": "Learn More",
-          "url": "https://ya.ru"
-        }
-      },
-      {
-        "id": 5,
-        "title": "Regal Lions",
-        "subtitle": "Powerful predators ruling over the African plains",
-        "content":  "These majestic lions are the kings of the jungle, with their impressive mane and fierce roar commanding respect from all.",
-        "image": "https://i.pinimg.com/originals/9b/59/d0/9b59d0084e3394c4228cf404bc112a51.jpg",
+        "title": "NHL TEAM LOGO - PITTSBURGH",
+        "subtitle": "Accepted Hockey team LOGO",
+        "content":  "Pittsburgh Penguins Logo was accepted 2016 till present.",
+        "image": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c0/Pittsburgh_Penguins_logo_%282016%29.svg/1200px-Pittsburgh_Penguins_logo_%282016%29.svg.png",
         "button": {
           "title": "Learn More",
           "url": "https://ya.ru"

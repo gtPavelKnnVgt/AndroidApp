@@ -2,7 +2,7 @@
 
 ## List page
 
-![List page](./preview/list.png)
+![List page](./preview/articles.png)
 
 ## Details page
 
@@ -17,13 +17,3 @@
 ### Music Paused
 
 ![Music not playing](./preview/music-2.png)
-
-## Widget
-
-### Widget (list)
-
-![Widget](./preview/widget-1.png)
-
-### Widget (details)
-
-![Widget](./preview/widget-2.png)
