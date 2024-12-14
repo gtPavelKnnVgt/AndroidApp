@@ -1,10 +1,7 @@
 package com.example.myapplication.widget
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
-import androidx.datastore.preferences.core.Preferences
 import androidx.glance.appwidget.GlanceAppWidgetManager
-import androidx.glance.appwidget.state.getAppWidgetState
 import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
